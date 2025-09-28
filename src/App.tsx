@@ -19,6 +19,8 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminTransactions from './pages/admin/AdminTransactions';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import InvestmentDashboard from './pages/investment/InvestmentDashboard';
+import ChatDashboard from './pages/chat/ChatDashboard';
 import './App.css';
 
 function App() {
@@ -34,6 +36,12 @@ function App() {
               <Route path="/product/:id" element={<ProductDetailPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              
+              {/* Investment Routes */}
+              <Route path="/investment" element={<InvestmentDashboard />} />
+              
+              {/* Chat Routes */}
+              <Route path="/chat" element={<ChatDashboard />} />
               
               {/* Seller Routes */}
               <Route path="/seller/dashboard" element={<SellerDashboard />} />

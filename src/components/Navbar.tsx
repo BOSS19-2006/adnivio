@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X, Store, BarChart3, Users, Settings } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, Store, BarChart3, Users, Settings, TrendingUp, MessageCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -68,6 +68,24 @@ const Navbar = () => {
               }`}
             >
               Marketplace
+            </Link>
+            
+            <Link 
+              to="/investment" 
+              className={`text-gray-700 hover:text-purple-600 font-medium transition-colors ${
+                location.pathname.includes('/investment') ? 'text-purple-600' : ''
+              }`}
+            >
+              Investment
+            </Link>
+            
+            <Link 
+              to="/chat" 
+              className={`text-gray-700 hover:text-purple-600 font-medium transition-colors ${
+                location.pathname.includes('/chat') ? 'text-purple-600' : ''
+              }`}
+            >
+              Messages
             </Link>
             
             {user && (
@@ -145,6 +163,22 @@ const Navbar = () => {
                       Dashboard
                     </Link>
                     <Link
+                      to="/investment"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      <TrendingUp className="w-4 h-4 mr-3" />
+                      Investment
+                    </Link>
+                    <Link
+                      to="/chat"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      <MessageCircle className="w-4 h-4 mr-3" />
+                      Messages
+                    </Link>
+                    <Link
                       to="/profile"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setIsProfileOpen(false)}
@@ -208,6 +242,22 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Marketplace
+                </Link>
+                
+                <Link
+                  to="/investment"
+                  className="block text-gray-700 hover:text-purple-600 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Investment
+                </Link>
+                
+                <Link
+                  to="/chat"
+                  className="block text-gray-700 hover:text-purple-600 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Messages
                 </Link>
                 
                 {user ? (

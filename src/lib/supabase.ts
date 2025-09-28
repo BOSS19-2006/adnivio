@@ -367,6 +367,290 @@ export interface Database {
           quantity?: number;
         };
       };
+      investment_profiles: {
+        Row: {
+          id: string;
+          sme_id: string;
+          company_name: string;
+          industry: string;
+          stage: 'idea' | 'mvp' | 'early_revenue' | 'growth' | 'expansion';
+          description: string;
+          funding_amount: number;
+          equity_offered: number;
+          current_revenue: number;
+          profit_margin: number;
+          customer_count: number;
+          growth_projections: any;
+          pitch_deck_url: string;
+          financial_documents: string[];
+          business_plan_url: string;
+          team_info: any;
+          milestones: any;
+          use_of_funds: string;
+          status: 'active' | 'funded' | 'closed' | 'paused';
+          views_count: number;
+          interest_count: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          sme_id: string;
+          company_name: string;
+          industry: string;
+          stage: 'idea' | 'mvp' | 'early_revenue' | 'growth' | 'expansion';
+          description: string;
+          funding_amount: number;
+          equity_offered?: number;
+          current_revenue?: number;
+          profit_margin?: number;
+          customer_count?: number;
+          growth_projections?: any;
+          pitch_deck_url?: string;
+          financial_documents?: string[];
+          business_plan_url?: string;
+          team_info?: any;
+          milestones?: any;
+          use_of_funds?: string;
+          status?: 'active' | 'funded' | 'closed' | 'paused';
+        };
+        Update: {
+          company_name?: string;
+          industry?: string;
+          stage?: 'idea' | 'mvp' | 'early_revenue' | 'growth' | 'expansion';
+          description?: string;
+          funding_amount?: number;
+          equity_offered?: number;
+          current_revenue?: number;
+          profit_margin?: number;
+          customer_count?: number;
+          growth_projections?: any;
+          pitch_deck_url?: string;
+          financial_documents?: string[];
+          business_plan_url?: string;
+          team_info?: any;
+          milestones?: any;
+          use_of_funds?: string;
+          status?: 'active' | 'funded' | 'closed' | 'paused';
+        };
+      };
+      investor_profiles: {
+        Row: {
+          id: string;
+          investor_id: string;
+          investor_type: string;
+          investment_range_min: number;
+          investment_range_max: number;
+          preferred_industries: string[];
+          preferred_stages: ('idea' | 'mvp' | 'early_revenue' | 'growth' | 'expansion')[];
+          risk_appetite: string;
+          investment_history: any;
+          portfolio_companies: string[];
+          bio: string;
+          linkedin_url: string;
+          website_url: string;
+          verified: boolean;
+          total_investments: number;
+          successful_exits: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          investor_id: string;
+          investor_type: string;
+          investment_range_min: number;
+          investment_range_max: number;
+          preferred_industries?: string[];
+          preferred_stages?: ('idea' | 'mvp' | 'early_revenue' | 'growth' | 'expansion')[];
+          risk_appetite?: string;
+          investment_history?: any;
+          portfolio_companies?: string[];
+          bio?: string;
+          linkedin_url?: string;
+          website_url?: string;
+          verified?: boolean;
+          total_investments?: number;
+          successful_exits?: number;
+        };
+        Update: {
+          investor_type?: string;
+          investment_range_min?: number;
+          investment_range_max?: number;
+          preferred_industries?: string[];
+          preferred_stages?: ('idea' | 'mvp' | 'early_revenue' | 'growth' | 'expansion')[];
+          risk_appetite?: string;
+          investment_history?: any;
+          portfolio_companies?: string[];
+          bio?: string;
+          linkedin_url?: string;
+          website_url?: string;
+          verified?: boolean;
+          total_investments?: number;
+          successful_exits?: number;
+        };
+      };
+      investment_interests: {
+        Row: {
+          id: string;
+          investor_id: string;
+          investment_profile_id: string;
+          interest_level: string;
+          proposed_amount: number;
+          proposed_equity: number;
+          message: string;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          investor_id: string;
+          investment_profile_id: string;
+          interest_level: string;
+          proposed_amount?: number;
+          proposed_equity?: number;
+          message?: string;
+          status?: string;
+        };
+        Update: {
+          interest_level?: string;
+          proposed_amount?: number;
+          proposed_equity?: number;
+          message?: string;
+          status?: string;
+        };
+      };
+      investment_deals: {
+        Row: {
+          id: string;
+          investment_profile_id: string;
+          investor_id: string;
+          deal_amount: number;
+          equity_percentage: number;
+          valuation: number;
+          status: 'pending' | 'negotiating' | 'due_diligence' | 'completed' | 'cancelled';
+          terms: any;
+          documents: string[];
+          escrow_wallet_id: string;
+          signed_at: string;
+          completed_at: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          investment_profile_id: string;
+          investor_id: string;
+          deal_amount: number;
+          equity_percentage: number;
+          valuation?: number;
+          status?: 'pending' | 'negotiating' | 'due_diligence' | 'completed' | 'cancelled';
+          terms?: any;
+          documents?: string[];
+          escrow_wallet_id?: string;
+        };
+        Update: {
+          deal_amount?: number;
+          equity_percentage?: number;
+          valuation?: number;
+          status?: 'pending' | 'negotiating' | 'due_diligence' | 'completed' | 'cancelled';
+          terms?: any;
+          documents?: string[];
+          escrow_wallet_id?: string;
+          signed_at?: string;
+          completed_at?: string;
+        };
+      };
+      chat_rooms: {
+        Row: {
+          id: string;
+          name: string;
+          type: 'buyer_seller' | 'investor_sme' | 'group' | 'ai_support';
+          created_by: string;
+          metadata: any;
+          is_active: boolean;
+          last_message_at: string;
+          created_at: string;
+        };
+        Insert: {
+          name?: string;
+          type: 'buyer_seller' | 'investor_sme' | 'group' | 'ai_support';
+          created_by: string;
+          metadata?: any;
+          is_active?: boolean;
+        };
+        Update: {
+          name?: string;
+          is_active?: boolean;
+          last_message_at?: string;
+        };
+      };
+      chat_participants: {
+        Row: {
+          id: string;
+          chat_room_id: string;
+          user_id: string;
+          joined_at: string;
+          last_read_at: string;
+          is_admin: boolean;
+        };
+        Insert: {
+          chat_room_id: string;
+          user_id: string;
+          is_admin?: boolean;
+        };
+        Update: {
+          last_read_at?: string;
+          is_admin?: boolean;
+        };
+      };
+      chat_messages: {
+        Row: {
+          id: string;
+          chat_room_id: string;
+          sender_id: string;
+          message_type: 'text' | 'image' | 'file' | 'voice' | 'system';
+          content: string;
+          file_url: string;
+          file_name: string;
+          file_size: number;
+          reply_to_id: string;
+          is_edited: boolean;
+          is_ai_message: boolean;
+          metadata: any;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          chat_room_id: string;
+          sender_id?: string;
+          message_type?: 'text' | 'image' | 'file' | 'voice' | 'system';
+          content: string;
+          file_url?: string;
+          file_name?: string;
+          file_size?: number;
+          reply_to_id?: string;
+          is_ai_message?: boolean;
+          metadata?: any;
+        };
+        Update: {
+          content?: string;
+          is_edited?: boolean;
+        };
+      };
+      ai_chat_sessions: {
+        Row: {
+          id: string;
+          user_id: string;
+          session_context: any;
+          last_interaction_at: string;
+          created_at: string;
+        };
+        Insert: {
+          user_id: string;
+          session_context?: any;
+        };
+        Update: {
+          session_context?: any;
+          last_interaction_at?: string;
+        };
+      };
     };
   };
 }
