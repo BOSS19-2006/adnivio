@@ -3,10 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+let supabase: any;
+
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('Supabase environment variables not configured. Using demo mode.');
   // Create a mock client for development without Supabase
-  export const supabase = {
+  supabase = {
     auth: {
       getSession: () => Promise.resolve({ data: { session: null }, error: null }),
       onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
@@ -20,11 +22,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
       update: () => ({ eq: () => Promise.resolve({ data: null, error: new Error('Demo mode') }) }),
       delete: () => ({ eq: () => Promise.resolve({ error: new Error('Demo mode') }) })
     })
-  } as any;
+  };
 } else {
-  export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
 }
 
+export { supabase };
 
 // Database types
 export interface Database {
