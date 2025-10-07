@@ -10,24 +10,26 @@
 
 -- Insert comprehensive categories
 INSERT INTO categories (id, name, slug, description, image_url, is_active) VALUES
-  ('cat-electronics', 'Electronics', 'electronics', 'Electronic devices and gadgets', 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg', true),
-  ('cat-fashion', 'Fashion', 'fashion', 'Clothing and accessories', 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg', true),
-  ('cat-health', 'Health & Wellness', 'health-wellness', 'Health and wellness products', 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg', true),
-  ('cat-home', 'Home & Garden', 'home-garden', 'Home decor and garden items', 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg', true),
-  ('cat-books', 'Books & Media', 'books-media', 'Books, movies, and media', 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg', true),
-  ('cat-sports', 'Sports & Fitness', 'sports-fitness', 'Sports equipment and fitness gear', 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg', true),
-  ('cat-automotive', 'Automotive', 'automotive', 'Car accessories and parts', 'https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg', true),
-  ('cat-beauty', 'Beauty & Personal Care', 'beauty-personal-care', 'Beauty and personal care products', 'https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg', true);
+  ('a1111111-1111-1111-1111-111111111111', 'Electronics', 'electronics', 'Electronic devices and gadgets', 'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg', true),
+  ('a2222222-2222-2222-2222-222222222222', 'Fashion', 'fashion', 'Clothing and accessories', 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg', true),
+  ('a3333333-3333-3333-3333-333333333333', 'Health & Wellness', 'health-wellness', 'Health and wellness products', 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg', true),
+  ('a4444444-4444-4444-4444-444444444444', 'Home & Garden', 'home-garden', 'Home decor and garden items', 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg', true),
+  ('a5555555-5555-5555-5555-555555555555', 'Books & Media', 'books-media', 'Books, movies, and media', 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg', true),
+  ('a6666666-6666-6666-6666-666666666666', 'Sports & Fitness', 'sports-fitness', 'Sports equipment and fitness gear', 'https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg', true),
+  ('a7777777-7777-7777-7777-777777777777', 'Automotive', 'automotive', 'Car accessories and parts', 'https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg', true),
+  ('a8888888-8888-8888-8888-888888888888', 'Beauty & Personal Care', 'beauty-personal-care', 'Beauty and personal care products', 'https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg', true)
+ON CONFLICT (id) DO NOTHING;
 
 -- Insert subcategories
 INSERT INTO categories (id, name, slug, description, parent_id, is_active) VALUES
-  ('subcat-smartphones', 'Smartphones', 'smartphones', 'Mobile phones and accessories', 'cat-electronics', true),
-  ('subcat-laptops', 'Laptops', 'laptops', 'Laptops and computers', 'cat-electronics', true),
-  ('subcat-audio', 'Audio', 'audio', 'Headphones and speakers', 'cat-electronics', true),
-  ('subcat-mens-clothing', 'Men''s Clothing', 'mens-clothing', 'Clothing for men', 'cat-fashion', true),
-  ('subcat-womens-clothing', 'Women''s Clothing', 'womens-clothing', 'Clothing for women', 'cat-fashion', true),
-  ('subcat-supplements', 'Supplements', 'supplements', 'Health supplements', 'cat-health', true),
-  ('subcat-fitness', 'Fitness Equipment', 'fitness-equipment', 'Home fitness equipment', 'cat-health', true);
+  ('b1111111-1111-1111-1111-111111111111', 'Smartphones', 'smartphones', 'Mobile phones and accessories', 'a1111111-1111-1111-1111-111111111111', true),
+  ('b2222222-2222-2222-2222-222222222222', 'Laptops', 'laptops', 'Laptops and computers', 'a1111111-1111-1111-1111-111111111111', true),
+  ('b3333333-3333-3333-3333-333333333333', 'Audio', 'audio', 'Headphones and speakers', 'a1111111-1111-1111-1111-111111111111', true),
+  ('b4444444-4444-4444-4444-444444444444', 'Men''s Clothing', 'mens-clothing', 'Clothing for men', 'a2222222-2222-2222-2222-222222222222', true),
+  ('b5555555-5555-5555-5555-555555555555', 'Women''s Clothing', 'womens-clothing', 'Clothing for women', 'a2222222-2222-2222-2222-222222222222', true),
+  ('b6666666-6666-6666-6666-666666666666', 'Supplements', 'supplements', 'Health supplements', 'a3333333-3333-3333-3333-333333333333', true),
+  ('b7777777-7777-7777-7777-777777777777', 'Fitness Equipment', 'fitness-equipment', 'Home fitness equipment', 'a3333333-3333-3333-3333-333333333333', true)
+ON CONFLICT (id) DO NOTHING;
 
 -- Sample shipping zones and rates (these would be created by sellers)
 -- Note: These are examples and would typically be created through the application
