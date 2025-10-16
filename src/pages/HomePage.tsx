@@ -28,7 +28,7 @@ const HomePage = () => {
       icon: Bot,
       title: "AI-Powered Ads",
       description: "Let AI create and optimize your advertising campaigns automatically.",
-      color: "from-purple-500 to-indigo-600"
+      color: "from-blue-500 to-cyan-600"
     },
     {
       icon: Target,
@@ -87,14 +87,14 @@ const HomePage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20"></div>
-        
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-cyan-600/20"></div>
+
         {/* Animated Background Elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-purple-500 rounded-full opacity-20 animate-float"></div>
-        <div className="absolute top-32 right-20 w-16 h-16 bg-blue-500 rounded-full opacity-20 animate-float" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-indigo-500 rounded-full opacity-20 animate-float" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-10 left-10 w-20 h-20 bg-blue-500 rounded-full opacity-20 animate-float"></div>
+        <div className="absolute top-32 right-20 w-16 h-16 bg-cyan-500 rounded-full opacity-20 animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-teal-500 rounded-full opacity-20 animate-float" style={{animationDelay: '2s'}}></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <motion.div
@@ -134,7 +134,7 @@ const HomePage = () => {
               </Link>
               <Link
                 to="/marketplace"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-purple-900 transition-all duration-300"
+                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-slate-900 transition-all duration-300"
               >
                 Explore Marketplace
               </Link>
@@ -167,7 +167,7 @@ const HomePage = () => {
                 variants={itemVariants}
                 className="text-center"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-4">
                   <stat.icon className="w-8 h-8 text-white" />
                 </div>
                 <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{stat.number}</div>
@@ -302,7 +302,7 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600">
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial="hidden"
@@ -329,14 +329,14 @@ const HomePage = () => {
             >
               <Link
                 to="/register"
-                className="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 flex items-center"
+                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 flex items-center"
               >
                 Get Started Free
                 <Zap className="ml-2 w-5 h-5" />
               </Link>
               <Link
                 to="/marketplace"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300"
+                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
               >
                 Explore Platform
               </Link>

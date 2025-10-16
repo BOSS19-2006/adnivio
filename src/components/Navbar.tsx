@@ -41,7 +41,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg flex items-center justify-center">
               <Store className="text-white w-6 h-6" />
             </div>
             <span className="text-2xl font-bold gradient-text">Adnivio</span>
@@ -54,53 +54,53 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search products, stores, or categories..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link 
-              to="/marketplace" 
-              className={`text-gray-700 hover:text-purple-600 font-medium transition-colors ${
-                isCurrentPath('/marketplace') ? 'text-purple-600' : ''
+            <Link
+              to="/marketplace"
+              className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
+                isCurrentPath('/marketplace') ? 'text-blue-600' : ''
               }`}
             >
               Marketplace
             </Link>
-            
-            <Link 
-              to="/investment" 
-              className={`text-gray-700 hover:text-purple-600 font-medium transition-colors ${
-                location.pathname.includes('/investment') ? 'text-purple-600' : ''
+
+            <Link
+              to="/investment"
+              className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
+                location.pathname.includes('/investment') ? 'text-blue-600' : ''
               }`}
             >
               Investment
             </Link>
-            
-            <Link 
-              to="/chat" 
-              className={`text-gray-700 hover:text-purple-600 font-medium transition-colors ${
-                location.pathname.includes('/chat') ? 'text-purple-600' : ''
+
+            <Link
+              to="/chat"
+              className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
+                location.pathname.includes('/chat') ? 'text-blue-600' : ''
               }`}
             >
               Messages
             </Link>
-            
+
             {user && (
               <>
-                <Link 
-                  to={getDashboardLink()} 
-                  className={`text-gray-700 hover:text-purple-600 font-medium transition-colors ${
-                    location.pathname.includes('dashboard') ? 'text-purple-600' : ''
+                <Link
+                  to={getDashboardLink()}
+                  className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
+                    location.pathname.includes('dashboard') ? 'text-blue-600' : ''
                   }`}
                 >
                   Dashboard
                 </Link>
-                
+
                 <Link to="/cart" className="relative p-2">
-                  <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-purple-600 transition-colors" />
+                  <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600 transition-colors" />
                   {totalItems > 0 && (
                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       {totalItems}
@@ -115,10 +115,10 @@ const Navbar = () => {
               {user ? (
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-purple-600 transition-colors"
+                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
                 >
                   <img
-                    src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=7c3aed&color=fff`}
+                    src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=2563eb&color=fff`}
                     alt={user.name}
                     className="w-8 h-8 rounded-full"
                   />
@@ -128,13 +128,13 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4">
                   <Link
                     to="/login"
-                    className="text-gray-700 hover:text-purple-600 font-medium transition-colors"
+                    className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all"
+                    className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all"
                   >
                     Register
                   </Link>
@@ -210,7 +210,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-purple-600 focus:outline-none"
+              className="text-gray-700 hover:text-blue-600 focus:outline-none"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -232,39 +232,39 @@ const Navbar = () => {
                   <input
                     type="text"
                     placeholder="Search..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 
                 <Link
                   to="/marketplace"
-                  className="block text-gray-700 hover:text-purple-600 font-medium"
+                  className="block text-gray-700 hover:text-blue-600 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Marketplace
                 </Link>
-                
+
                 <Link
                   to="/investment"
-                  className="block text-gray-700 hover:text-purple-600 font-medium"
+                  className="block text-gray-700 hover:text-blue-600 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Investment
                 </Link>
-                
+
                 <Link
                   to="/chat"
-                  className="block text-gray-700 hover:text-purple-600 font-medium"
+                  className="block text-gray-700 hover:text-blue-600 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Messages
                 </Link>
-                
+
                 {user ? (
                   <>
                     <Link
                       to={getDashboardLink()}
-                      className="block text-gray-700 hover:text-purple-600 font-medium"
+                      className="block text-gray-700 hover:text-blue-600 font-medium"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Dashboard
@@ -280,14 +280,14 @@ const Navbar = () => {
                   <div className="space-y-2">
                     <Link
                       to="/login"
-                      className="block text-gray-700 hover:text-purple-600 font-medium"
+                      className="block text-gray-700 hover:text-blue-600 font-medium"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Login
                     </Link>
                     <Link
                       to="/register"
-                      className="block bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg text-center"
+                      className="block bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-lg text-center"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Register

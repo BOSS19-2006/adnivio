@@ -43,10 +43,13 @@ const MarketplacePage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [isLoading, setIsLoading] = useState(true);
 
   // Mock product data
   useEffect(() => {
-    const mockProducts: Product[] = [
+    setIsLoading(true);
+    setTimeout(() => {
+      const mockProducts: Product[] = [
       {
         id: '1',
         name: 'Premium Wireless Headphones',
@@ -128,10 +131,132 @@ const MarketplacePage = () => {
         category: 'electronics',
         tags: ['photography', 'professional', 'lens'],
         discount: 16
+      },
+      {
+        id: '7',
+        name: 'Running Shoes - Sports Edition',
+        price: 2499,
+        originalPrice: 3499,
+        image: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.7,
+        reviews: 890,
+        seller: 'SportZone',
+        location: 'Hyderabad, Telangana',
+        category: 'fashion',
+        tags: ['sports', 'running', 'shoes'],
+        discount: 29
+      },
+      {
+        id: '8',
+        name: 'Bluetooth Speaker - Waterproof',
+        price: 1899,
+        originalPrice: 2999,
+        image: 'https://images.pexels.com/photos/1279093/pexels-photo-1279093.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.6,
+        reviews: 345,
+        seller: 'AudioMaster',
+        location: 'Kolkata, West Bengal',
+        category: 'electronics',
+        tags: ['bluetooth', 'waterproof', 'portable'],
+        isSponsored: true,
+        discount: 37
+      },
+      {
+        id: '9',
+        name: 'Yoga Mat - Premium Quality',
+        price: 899,
+        image: 'https://images.pexels.com/photos/4498606/pexels-photo-4498606.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.8,
+        reviews: 234,
+        seller: 'FitLife Store',
+        location: 'Ahmedabad, Gujarat',
+        category: 'health',
+        tags: ['yoga', 'fitness', 'exercise']
+      },
+      {
+        id: '10',
+        name: 'Ceramic Coffee Mug Set',
+        price: 599,
+        image: 'https://images.pexels.com/photos/1251175/pexels-photo-1251175.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.5,
+        reviews: 156,
+        seller: 'HomeEssentials',
+        location: 'Surat, Gujarat',
+        category: 'home',
+        tags: ['ceramic', 'kitchen', 'coffee']
+      },
+      {
+        id: '11',
+        name: 'Laptop Backpack - Anti-Theft',
+        price: 1799,
+        originalPrice: 2499,
+        image: 'https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.7,
+        reviews: 678,
+        seller: 'TravelGear Pro',
+        location: 'Lucknow, Uttar Pradesh',
+        category: 'fashion',
+        tags: ['backpack', 'laptop', 'travel'],
+        discount: 28
+      },
+      {
+        id: '12',
+        name: 'LED Desk Lamp - Adjustable',
+        price: 1299,
+        image: 'https://images.pexels.com/photos/1112598/pexels-photo-1112598.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.6,
+        reviews: 189,
+        seller: 'BrightHome',
+        location: 'Indore, Madhya Pradesh',
+        category: 'home',
+        tags: ['led', 'lamp', 'desk']
+      },
+      {
+        id: '13',
+        name: 'Protein Powder - Chocolate Flavor',
+        price: 2299,
+        originalPrice: 2799,
+        image: 'https://images.pexels.com/photos/4110256/pexels-photo-4110256.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.7,
+        reviews: 567,
+        seller: 'NutriZone',
+        location: 'Chandigarh, India',
+        category: 'health',
+        tags: ['protein', 'nutrition', 'fitness'],
+        discount: 18
+      },
+      {
+        id: '14',
+        name: 'Wireless Gaming Mouse',
+        price: 2799,
+        originalPrice: 3999,
+        image: 'https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.8,
+        reviews: 432,
+        seller: 'GamePro Accessories',
+        location: 'Coimbatore, Tamil Nadu',
+        category: 'electronics',
+        tags: ['gaming', 'wireless', 'mouse'],
+        isSponsored: true,
+        discount: 30
+      },
+      {
+        id: '15',
+        name: 'Canvas Wall Art - Abstract',
+        price: 1599,
+        image: 'https://images.pexels.com/photos/1579708/pexels-photo-1579708.jpeg?auto=compress&cs=tinysrgb&w=800',
+        rating: 4.9,
+        reviews: 145,
+        seller: 'ArtHub Gallery',
+        location: 'Kochi, Kerala',
+        category: 'home',
+        tags: ['art', 'canvas', 'decor']
       }
     ];
-    setProducts(mockProducts);
-    setFilteredProducts(mockProducts);
+      setProducts(mockProducts);
+      setFilteredProducts(mockProducts);
+      setIsLoading(false);
+    }, 800);
   }, []);
 
   const categories = [
@@ -250,7 +375,7 @@ const MarketplacePage = () => {
                   placeholder="Search products, sellers, or categories..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               
@@ -285,7 +410,7 @@ const MarketplacePage = () => {
                         value={category.id}
                         checked={selectedCategory === category.id}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="w-4 h-4 text-purple-600 border-gray-300 focus:ring-purple-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                       />
                       <span className="ml-3 text-sm text-gray-700">
                         {category.name} ({category.count})
@@ -321,7 +446,7 @@ const MarketplacePage = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="featured">Featured</option>
                   <option value="price-low">Price: Low to High</option>
@@ -346,27 +471,37 @@ const MarketplacePage = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-400 hover:text-gray-600'}`}
+                  className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
                 >
                   <Grid className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-400 hover:text-gray-600'}`}
+                  className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
                 >
                   <List className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
-            {/* Products */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={containerVariants}
-              className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-6'}
-            >
-              {filteredProducts.map(product => (
+            {/* Loading State */}
+            {isLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="text-center">
+                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mb-4"></div>
+                  <p className="text-gray-600">Loading products...</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Products */}
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={containerVariants}
+                  className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-6'}
+                >
+                  {filteredProducts.map(product => (
                 <motion.div
                   key={product.id}
                   variants={itemVariants}
@@ -414,7 +549,7 @@ const MarketplacePage = () => {
                     <div className={`${viewMode === 'list' ? 'flex justify-between' : ''}`}>
                       <div className={viewMode === 'list' ? 'flex-1' : ''}>
                         <Link to={`/product/${product.id}`}>
-                          <h3 className="font-semibold text-gray-900 mb-2 hover:text-purple-600 transition-colors line-clamp-2">
+                          <h3 className="font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors line-clamp-2">
                             {product.name}
                           </h3>
                         </Link>
@@ -436,7 +571,7 @@ const MarketplacePage = () => {
                         <div className="flex items-center justify-between mb-4">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-2xl font-bold text-purple-600">
+                              <span className="text-2xl font-bold text-blue-600">
                                 ₹{product.price.toLocaleString()}
                               </span>
                               {product.originalPrice && (
@@ -453,7 +588,7 @@ const MarketplacePage = () => {
                       <div className={viewMode === 'list' ? 'flex flex-col justify-end ml-6' : ''}>
                         <button
                           onClick={() => handleAddToCart(product)}
-                          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 px-4 rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+                          className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-2 px-4 rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center"
                         >
                           <ShoppingCart className="w-4 h-4 mr-2" />
                           Add to Cart
@@ -462,17 +597,19 @@ const MarketplacePage = () => {
                     </div>
                   </div>
                 </motion.div>
-              ))}
-            </motion.div>
+                  ))}
+                </motion.div>
 
-            {filteredProducts.length === 0 && (
+                {filteredProducts.length === 0 && (
               <div className="text-center py-12">
                 <div className="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
                   <Search className="w-12 h-12 text-gray-400" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-                <p className="text-gray-600">Try adjusting your filters or search terms</p>
-              </div>
+                  <p className="text-gray-600">Try adjusting your filters or search terms</p>
+                </div>
+              )}
+            </>
             )}
           </div>
         </div>
