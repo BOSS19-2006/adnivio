@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import MarketplacePage from './pages/MarketplacePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import SellerDashboard from './pages/seller/SellerDashboard';
+import SellerProducts from './pages/seller/SellerProducts';
 import SellerAds from './pages/seller/SellerAds';
 import SellerWallet from './pages/seller/SellerWallet';
 import SellerAnalytics from './pages/seller/SellerAnalytics';
@@ -20,11 +21,6 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import InvestmentDashboard from './pages/investment/InvestmentDashboard';
 import ChatDashboard from './pages/chat/ChatDashboard';
-import OnboardingPage from './pages/OnboardingPage';
-import OnboardingDetailPage from './pages/OnboardingDetailPage';
-import InvestorHubPage from './pages/InvestorHubPage';
-import SellerDashboardNew from './pages/seller/SellerDashboardNew';
-import ServiceProviderDashboard from './pages/service/ServiceProviderDashboard';
 import './App.css';
 
 function App() {
