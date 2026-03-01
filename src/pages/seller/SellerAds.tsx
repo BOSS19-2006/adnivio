@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
-import { Plus, Play, Pause, CreditCard as Edit, Trash2, Eye, Target, TrendingUp, DollarSign, Users, MousePointer, BarChart3, Zap, Brain, Image, Video, Type } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Plus, Play, Pause, CreditCard as Edit, Trash2, Eye, Target, TrendingUp, DollarSign, Users, MousePointer, BarChart3, Zap, Brain, Image, Video, Type, Loader } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-
-interface AdCampaign {
-  id: string;
-  name: string;
-  status: 'active' | 'paused' | 'completed' | 'draft';
-  budget: number;
-  spent: number;
-  impressions: number;
-  clicks: number;
-  conversions: number;
-  ctr: number;
-  cpc: number;
-  startDate: string;
-  endDate: string;
-  targetAudience: string;
-  adType: 'image' | 'video' | 'text' | 'carousel';
-}
+import toast from 'react-hot-toast';
+import { useCampaigns } from '../../hooks/useCampaigns';
+import { useAuth } from '../../hooks/useAuth';
 
 const SellerAds: React.FC = () => {
   const [activeTab, setActiveTab] = useState('campaigns');
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [formData, setFormData] = useState({
+    campaign_name: '',
+    budget: '',
+    campaign_type: 'product' as 'product' | 'service' | 'brand',
+    objective: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Mock campaign data
-  const campaigns: AdCampaign[] = [
+  const { user } = useAuth();
+  const { campaigns, loading, fetchCampaigns, createCampaign, deleteCampaign, updateCampaign } = useCampaigns();
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchCampaigns({ business_id: user.id });
+    }
+  }, [user?.id]);
+
+  // Mock campaign data (for reference)
+  const mockCampaigns = [
     {
       id: 'AD001',
       name: 'Summer Electronics Sale',
@@ -123,11 +125,72 @@ const SellerAds: React.FC = () => {
     }
   };
 
+  const handleCreateCampaign = async () => {
+    if (!user?.id) {
+      toast.error('User not found');
+      return;
+    }
+
+    if (!formData.campaign_name || !formData.budget) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await createCampaign(user.id, {
+        campaign_name: formData.campaign_name,
+        campaign_type: formData.campaign_type,
+        budget: parseFloat(formData.budget),
+        objective: formData.objective,
+        platforms: [],
+      });
+      toast.success('Campaign created successfully');
+      setShowCreateModal(false);
+      setFormData({ campaign_name: '', budget: '', campaign_type: 'product', objective: '' });
+      await fetchCampaigns({ business_id: user.id });
+    } catch (error) {
+      toast.error('Failed to create campaign');
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handlePauseCampaign = async (id: string) => {
+    try {
+      await updateCampaign(id, { status: 'paused' });
+      toast.success('Campaign paused');
+    } catch (error) {
+      toast.error('Failed to pause campaign');
+    }
+  };
+
+  const handleActivateCampaign = async (id: string) => {
+    try {
+      await updateCampaign(id, { status: 'active' });
+      toast.success('Campaign activated');
+    } catch (error) {
+      toast.error('Failed to activate campaign');
+    }
+  };
+
+  const handleDeleteCampaign = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this campaign?')) {
+      try {
+        await deleteCampaign(id);
+        toast.success('Campaign deleted');
+      } catch (error) {
+        toast.error('Failed to delete campaign');
+      }
+    }
+  };
+
   const totalBudget = campaigns.reduce((sum, campaign) => sum + campaign.budget, 0);
-  const totalSpent = campaigns.reduce((sum, campaign) => sum + campaign.spent, 0);
-  const totalImpressions = campaigns.reduce((sum, campaign) => sum + campaign.impressions, 0);
-  const totalClicks = campaigns.reduce((sum, campaign) => sum + campaign.clicks, 0);
-  const totalConversions = campaigns.reduce((sum, campaign) => sum + campaign.conversions, 0);
+  const totalSpent = campaigns.reduce((sum, campaign) => sum + (campaign.spent || 0), 0);
+  const totalImpressions = campaigns.reduce((sum, campaign) => sum + (campaign.performance_metrics?.total_impressions || 0), 0);
+  const totalClicks = campaigns.reduce((sum, campaign) => sum + (campaign.performance_metrics?.total_clicks || 0), 0);
+  const totalConversions = campaigns.reduce((sum, campaign) => sum + (campaign.performance_metrics?.total_conversions || 0), 0);
   const avgCTR = totalClicks > 0 ? (totalClicks / totalImpressions * 100) : 0;
 
   return (
@@ -243,64 +306,96 @@ const SellerAds: React.FC = () => {
           <div className="p-6">
             {activeTab === 'campaigns' && (
               <div>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-gray-200">
-                        <th className="text-left py-3 px-4 font-medium text-gray-900">Campaign</th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900">Budget</th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900">Performance</th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {campaigns.map((campaign) => (
-                        <tr key={campaign.id} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-3">
-                              {getAdTypeIcon(campaign.adType)}
-                              <div>
-                                <div className="font-medium text-gray-900">{campaign.name}</div>
-                                <div className="text-sm text-gray-500">{campaign.targetAudience}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="py-4 px-4">
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(campaign.status)}`}>
-                              {campaign.status}
-                            </span>
-                          </td>
-                          <td className="py-4 px-4">
-                            <div className="text-sm">
-                              <div className="font-medium text-gray-900">₹{campaign.budget.toLocaleString()}</div>
-                              <div className="text-gray-500">Spent: ₹{campaign.spent.toLocaleString()}</div>
-                            </div>
-                          </td>
-                          <td className="py-4 px-4">
-                            <div className="text-sm">
-                              <div className="text-gray-900">{campaign.impressions.toLocaleString()} impressions</div>
-                              <div className="text-gray-500">{campaign.clicks} clicks • {campaign.conversions} conversions</div>
-                            </div>
-                          </td>
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-2">
-                              <button className="p-2 text-gray-400 hover:text-purple-600 transition-colors">
-                                <Edit className="w-4 h-4" />
-                              </button>
-                              <button className="p-2 text-gray-400 hover:text-green-600 transition-colors">
-                                {campaign.status === 'active' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                              </button>
-                              <button className="p-2 text-gray-400 hover:text-red-600 transition-colors">
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </td>
+                {loading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader className="w-6 h-6 text-purple-600 animate-spin" />
+                  </div>
+                ) : campaigns.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Brain className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No campaigns yet</h3>
+                    <p className="text-gray-600">Create your first ad campaign to get started</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="text-left py-3 px-4 font-medium text-gray-900">Campaign</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-900">Type</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-900">Budget</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-900">Performance</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-900">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {campaigns.map((campaign) => {
+                          const metrics = campaign.performance_metrics || {};
+                          const impressions = metrics.total_impressions || 0;
+                          const clicks = metrics.total_clicks || 0;
+                          const conversions = metrics.total_conversions || 0;
+                          return (
+                            <tr key={campaign.id} className="border-b border-gray-100 hover:bg-gray-50">
+                              <td className="py-4 px-4">
+                                <div className="flex items-center gap-3">
+                                  <Image className="w-4 h-4 text-gray-500" />
+                                  <div>
+                                    <div className="font-medium text-gray-900">{campaign.campaign_name}</div>
+                                    <div className="text-sm text-gray-500">{campaign.objective || 'No objective'}</div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <span className="text-sm text-gray-600 capitalize">{campaign.campaign_type}</span>
+                              </td>
+                              <td className="py-4 px-4">
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(campaign.status)}`}>
+                                  {campaign.status}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="text-sm">
+                                  <div className="font-medium text-gray-900">₹{campaign.budget.toLocaleString()}</div>
+                                  <div className="text-gray-500">Spent: ₹{(campaign.spent || 0).toLocaleString()}</div>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="text-sm">
+                                  <div className="text-gray-900">{impressions.toLocaleString()} impressions</div>
+                                  <div className="text-gray-500">{clicks} clicks • {conversions} conversions</div>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex items-center gap-2">
+                                  <button className="p-2 text-gray-400 hover:text-purple-600 transition-colors">
+                                    <Edit className="w-4 h-4" />
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      campaign.status === 'active'
+                                        ? handlePauseCampaign(campaign.id)
+                                        : handleActivateCampaign(campaign.id)
+                                    }
+                                    className="p-2 text-gray-400 hover:text-green-600 transition-colors"
+                                  >
+                                    {campaign.status === 'active' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteCampaign(campaign.id)}
+                                    className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             )}
 
@@ -447,12 +542,14 @@ const SellerAds: React.FC = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl p-6 w-full max-w-2xl mx-4">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New Campaign</h2>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Campaign Name</label>
                   <input
                     type="text"
+                    value={formData.campaign_name}
+                    onChange={(e) => setFormData({ ...formData, campaign_name: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Enter campaign name"
                   />
@@ -463,27 +560,34 @@ const SellerAds: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">Budget (₹)</label>
                     <input
                       type="number"
+                      value={formData.budget}
+                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       placeholder="5000"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Ad Type</label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                      <option>Image Ad</option>
-                      <option>Video Ad</option>
-                      <option>Text Ad</option>
-                      <option>Carousel Ad</option>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Campaign Type</label>
+                    <select
+                      value={formData.campaign_type}
+                      onChange={(e) => setFormData({ ...formData, campaign_type: e.target.value as 'product' | 'service' | 'brand' })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option value="product">Product</option>
+                      <option value="service">Service</option>
+                      <option value="brand">Brand</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Target Audience</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Campaign Objective</label>
                   <input
                     type="text"
+                    value={formData.objective}
+                    onChange={(e) => setFormData({ ...formData, objective: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="e.g., Tech Enthusiasts, 25-45"
+                    placeholder="e.g., Increase brand awareness"
                   />
                 </div>
 
@@ -493,8 +597,7 @@ const SellerAds: React.FC = () => {
                     <span className="font-medium text-blue-900">AI Suggestions</span>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Based on your product data, AI recommends targeting "Tech Enthusiasts aged 25-45" 
-                    with a budget of ₹3,500 for optimal performance.
+                    Set up your campaign and we'll provide AI-powered recommendations to optimize your ad performance and maximize ROI.
                   </p>
                 </div>
               </div>
@@ -502,12 +605,24 @@ const SellerAds: React.FC = () => {
               <div className="flex justify-end gap-3 mt-6">
                 <button
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  disabled={isSubmitting}
+                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
-                <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                  Create Campaign
+                <button
+                  onClick={handleCreateCampaign}
+                  disabled={isSubmitting}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    'Create Campaign'
+                  )}
                 </button>
               </div>
             </div>
